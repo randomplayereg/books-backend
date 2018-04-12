@@ -40,6 +40,15 @@ class UsersController < ApplicationController
     @user.destroy
   end
 
+  # GET /users/1/check_admin
+  def check_admin
+    if @user.admin
+      render json: {admin: true}, status: :ok
+    else
+      render json: {admin: false}, status: :ok
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
