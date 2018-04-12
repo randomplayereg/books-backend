@@ -1,5 +1,8 @@
 class BooksController < ApplicationController
-  before_action :set_book, only: [:show, :update, :destroy]
+  before_action :set_book, except: [:index, :create]
+  before_action :require_login, only: [:update, :destroy, :create, :require_either_admin_or_same_user]
+  before_action :require_either_admin_or_same_user, only: [:update, :destroy]
+
 
   # GET /books
   def index
@@ -47,5 +50,11 @@ class BooksController < ApplicationController
     # Only allow a trusted parameter "white list" through.
     def book_params
       params.require(:book).permit(:title, :author, :user_id)
+    end
+
+    def require_either_admin_or_same_user
+      if @book.user_id != current_user.id && current_user.admin == false
+        render_unauthorized("Access denied!")
+      end
     end
 end
