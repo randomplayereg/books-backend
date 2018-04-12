@@ -28,6 +28,9 @@ gem 'rack-cors'
 # Serializer
 gem 'active_model_serializers'
 
+# Faker
+gem 'faker', :git => 'https://github.com/stympy/faker.git', :branch => 'master'
+
 # JSON Web Token
 # gem 'jwt'
 
