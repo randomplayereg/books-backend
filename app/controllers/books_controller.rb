@@ -6,9 +6,33 @@ class BooksController < ApplicationController
 
   # GET /books
   def index
-    @books = Book.all
+    params.permit(:filter_by_id, :filter_by_keyword, :sort_by, :page)
 
-    render json: @books
+    if params[:filter_by_id]
+      @books = Book.where(user_id: params[:filter_by_id]);
+    elsif params[:filter_by_keyword]
+
+    else
+      @books = Book.all
+    end
+
+    if params[:sort_by] == "newest"
+      @books.order!(updated_at: :desc)
+    end
+    if params[:sort_by] == "oldest"
+      @books.order!(updated_at: :asc)
+    end
+    if params[:sort_by] == "title"
+      @books.order!(title: :asc)
+    end
+
+    if params[:page]
+      @books = @books.limit(5).offset((params[:page].to_i - 1) * 5)
+    else
+      @books = @books.limit(5)
+    end
+
+    render json: @books, status: :ok
   end
 
   # GET /books/1
@@ -19,7 +43,7 @@ class BooksController < ApplicationController
   # POST /books
   def create
     @book = Book.new(book_params)
-
+    @book.user_id = current_user.id
     if @book.save
       render json: @book, status: :created, location: @book
     else
@@ -41,6 +65,11 @@ class BooksController < ApplicationController
     @book.destroy
   end
 
+  # GET /books/total
+  def total
+    render json: {total: Book.count}, status: :ok
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_book
@@ -49,7 +78,7 @@ class BooksController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def book_params
-      params.require(:book).permit(:title, :author, :user_id)
+      params.require(:book).permit(:title, :author)
     end
 
     def require_either_admin_or_same_user
