@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :update, :destroy]
-
+  before_action :set_user, except: [:index, :create]
+  before_action :require_login, only: [:update, :destroy, :check_admin, :require_either_admin_or_same_user]
+  before_action :require_either_admin_or_same_user, only: [:update, :destroy]
   # GET /users
   def index
     @users = User.all
@@ -48,5 +49,11 @@ class UsersController < ApplicationController
     # Only allow a trusted parameter "white list" through.
     def user_params
       params.permit(:username, :email, :password)
+    end
+
+    def require_either_admin_or_same_user
+     if @user.id != current_user.id && current_user.admin == false
+       render_unauthorized("Access denied!")
+     end
     end
 end
