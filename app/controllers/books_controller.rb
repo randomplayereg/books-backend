@@ -1,5 +1,5 @@
 class BooksController < ApplicationController
-  before_action :set_book, except: [:index, :create]
+  before_action :set_book, except: [:index, :create, :total]
   before_action :require_login, only: [:update, :destroy, :create, :require_either_admin_or_same_user]
   before_action :require_either_admin_or_same_user, only: [:update, :destroy]
 
@@ -73,6 +73,7 @@ class BooksController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_book
+      debugger
       @book = Book.find(params[:id])
     end
 
