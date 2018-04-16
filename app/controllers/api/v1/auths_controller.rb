@@ -13,7 +13,7 @@ module Api
 
       def destroy
         current_user.logout
-        head: :ok
+        render json: {}, status: :ok
       end
 
       private

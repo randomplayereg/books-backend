@@ -47,7 +47,7 @@ module Api
         @book = Book.new(book_params)
         @book.user_id = current_user.id
         if @book.save
-          render json: @book, status: :created, location: @book
+          render json: @book, status: :created
         else
           render json: @book.errors, status: :unprocessable_entity
         end
@@ -81,7 +81,7 @@ module Api
 
         # Only allow a trusted parameter "white list" through.
         def book_params
-          params.require(:book).permit(:title, :author)
+          params.require(:book).permit(:title, :author, :picture)
         end
 
         def require_either_admin_or_same_user
