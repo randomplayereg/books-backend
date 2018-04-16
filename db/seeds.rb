@@ -16,7 +16,7 @@ User.create(username: "admin", email: "admin@imug.com", password: "1", admin: tr
   User.create!(username: username, email: email, password: password)
 end
 
-20.times do
+30.times do
   title = Faker::Book.title
   author = Faker::Book.author
   #ids = User.where(admin: false).pluck(:id).shuffle[0]
