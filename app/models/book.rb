@@ -10,14 +10,14 @@ class Book < ApplicationRecord
    def self.get_books(params)
      @books = Book.all
      @books.joins!(:user)
-     by_filter(params[:filter_params])
+     filter_by(params[:filter_params])
      sort_by(params[:sort_params])
      @books = @books.limit(5).offset((params[:page].to_i - 1) * 5)
      @books
    end
 
    protected
-     def self.by_filter(filter_params) # example: ("title LIKE ?", "Bendtner"), ("id = ?", "12")
+     def self.filter_by(filter_params) # example: ("title LIKE ?", "Bendtner"), ("id = ?", "12")
        if (filter_params[:attr] != "")
          query = filter_params[:attr] + ' ' + filter_params[:operator] + ' ?'
          @books.where!(query, filter_params[:value])

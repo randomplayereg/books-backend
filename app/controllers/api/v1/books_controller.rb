@@ -8,33 +8,6 @@ module Api
 
       # GET /books
       def index
-        # params.permit(:filter_by_id, :filter_by_keyword, :sort_by, :page)
-        #
-        # if params[:filter_by_id]
-        #   @books = Book.where(user_id: params[:filter_by_id]);
-        # elsif params[:filter_by_keyword]
-        #
-        # else
-        #   @books = Book.all
-        # end
-        #
-        # if params[:sort_by] == "newest"
-        #   @books.order!(updated_at: :desc)
-        # end
-        # if params[:sort_by] == "oldest"
-        #   @books.order!(updated_at: :asc)
-        # end
-        # if params[:sort_by] == "title"
-        #   @books.order!(title: :asc)
-        # end
-
-        # @books = Book.all.order(params[:order_by] params[:order])
-        # if params[:page]
-        #   @books = @books.limit(5).offset((params[:page].to_i - 1) * 5)
-        # else
-        #   @books = @books.limit(5)
-        # end
-
         render json: Book.get_books(params), status: :ok
       end
 
