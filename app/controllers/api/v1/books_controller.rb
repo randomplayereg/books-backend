@@ -39,6 +39,7 @@ module Api
       # DELETE /books/1
       def destroy
         @book.destroy
+        render json: {message: "Successfully deleted!"}, status: :ok
       end
 
       # GET /books/total
@@ -54,7 +55,7 @@ module Api
 
         # Only allow a trusted parameter "white list" through.
         def book_params
-          params.require(:book).permit(:title, :author, :picture)
+          params.permit(:title, :author, :picture)
         end
 
         def require_either_admin_or_same_user

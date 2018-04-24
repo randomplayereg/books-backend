@@ -1,9 +1,10 @@
 class Book < ApplicationRecord
-   belongs_to :user
+   belongs_to :member
 
    validates :title, presence: true
    validates :author, presence: true
-   validates :user_id, presence: true
+   # validates :user_id, presence: true
+   validates :member_id, presence: true
 
    mount_base64_uploader :picture, PictureUploader
 
