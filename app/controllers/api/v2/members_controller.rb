@@ -52,7 +52,7 @@ module Api
 
         # Only allow a trusted parameter "white list" through.
         def member_params
-          params.permit(:username, :email, :password)
+          params.permit(:email, :password)
         end
 
         def require_login
