@@ -44,8 +44,8 @@ gem 'mini_magick', '~> 4.3'
 gem 'devise_token_auth'
 
 # For exporting xls
-gem 'rubyzip', '= 1.0.0'
-gem 'axlsx', '= 2.0.1'
+gem 'rubyzip', '>= 1.2.1'
+gem 'axlsx', git: 'https://github.com/randym/axlsx.git', ref: 'c8ac844'
 gem 'axlsx_rails'
 
 group :development, :test do
