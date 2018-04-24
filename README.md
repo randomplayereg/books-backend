@@ -1,3 +1,4 @@
+API URL: http://boks-backands.herokuapp.com
 Ruby on Rails training project
 
 The purpose of this system are as follows:
