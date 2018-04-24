@@ -4,6 +4,7 @@ module Api
       include ActionController::HttpAuthentication::Token::ControllerMethods
 
       def require_login
+        debugger
         authenticate_token || render_unauthorized("Access Denied")
       end
 

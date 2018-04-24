@@ -40,6 +40,14 @@ gem 'carrierwave-base64'
 # For resizeing images
 gem 'mini_magick', '~> 4.3'
 
+#
+gem 'devise_token_auth'
+
+# For exporting xls
+gem 'rubyzip', '= 1.0.0'
+gem 'axlsx', '= 2.0.1'
+gem 'axlsx_rails'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

@@ -8,33 +8,7 @@ module Api
 
       # GET /books
       def index
-        params.permit(:filter_by_id, :filter_by_keyword, :sort_by, :page)
-
-        if params[:filter_by_id]
-          @books = Book.where(user_id: params[:filter_by_id]);
-        elsif params[:filter_by_keyword]
-
-        else
-          @books = Book.all
-        end
-
-        if params[:sort_by] == "newest"
-          @books.order!(updated_at: :desc)
-        end
-        if params[:sort_by] == "oldest"
-          @books.order!(updated_at: :asc)
-        end
-        if params[:sort_by] == "title"
-          @books.order!(title: :asc)
-        end
-
-        if params[:page]
-          @books = @books.limit(5).offset((params[:page].to_i - 1) * 5)
-        else
-          @books = @books.limit(5)
-        end
-
-        render json: @books, status: :ok
+        render json: Book.get_books(params), status: :ok
       end
 
       # GET /books/1
@@ -65,6 +39,7 @@ module Api
       # DELETE /books/1
       def destroy
         @book.destroy
+        render json: {message: "Successfully deleted!"}, status: :ok
       end
 
       # GET /books/total
@@ -80,7 +55,7 @@ module Api
 
         # Only allow a trusted parameter "white list" through.
         def book_params
-          params.require(:book).permit(:title, :author, :picture)
+          params.permit(:title, :author, :picture)
         end
 
         def require_either_admin_or_same_user
