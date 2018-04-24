@@ -15,10 +15,10 @@ Rails.application.routes.draw do
     end
     namespace :v2 do
       get "/books/total", to: "books#total"
+      get "/books/xls", to: "xlsexporter#books", format: "xlsx"
       resources :books
+      get "/members/xls", to: "xlsexporter#members", format: "xlsx"
       resources :members, only: [:index, :show, :update, :destroy]
-
-      get "/ree", to: "hacker#ree"
     end
   end
 end
