@@ -18,7 +18,6 @@ module Api
 
       # POST /users
       def create
-        debugger
         @user = User.new(user_params)
 
         if @user.save

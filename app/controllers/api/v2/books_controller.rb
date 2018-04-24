@@ -22,7 +22,6 @@ module Api
         end
 
         def require_either_admin_or_same_user
-          debugger
           if @book.member_id != current_member.id && current_member.admin != true
             render json: {message: "You don't have permission!"}, status: :forbidden
           end
