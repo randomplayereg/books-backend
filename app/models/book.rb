@@ -10,7 +10,7 @@ class Book < ApplicationRecord
 
    def self.get_books(params)
      @books = Book.all
-     @books.joins!(:member)
+     # @books.joins!(:member)
      if params[:filter_params]
        filter_by(params[:filter_params])
      end
