@@ -10,7 +10,7 @@ Rails.application.config.middleware.insert_before 0, Rack::Cors do
     origins ENV.fetch('ALLOWED_ORIGINS') { '*' }
 
     resource '*',
-      headers: :any,
+      headers: :any, :expose  => ['access-token', 'expiry', 'token-type', 'uid', 'client']
       methods: [:get, :post, :put, :patch, :delete, :options, :head]
   end
 end
