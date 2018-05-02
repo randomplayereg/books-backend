@@ -2,8 +2,8 @@ module Api
   module V2
     class MembersController < ApiController
 
-      before_action :set_member, except: [:index]
-      before_action :require_login, only: [:update, :destroy, :check_admin, :require_admin]
+      before_action :set_member, except: [:index, :check_admin, :self]
+      before_action :require_login, only: [:update, :destroy, :check_admin, :self, :require_admin]
       before_action :require_admin, only: [:update, :destroy]
       # GET /members
       def index
@@ -35,12 +35,23 @@ module Api
         end
       end
 
-      # GET /members/1/check_admin
+      # GET /members/check_admin
       def check_admin
+        @member = Member.find_by(email: request.headers["uid"])
         if @member.admin
           render json: {admin: true}, status: :ok
         else
           render json: {admin: false}, status: :ok
+        end
+      end
+
+      # GET /members/self
+      def self
+        @member = Member.find_by(email: request.headers["uid"])
+        if @member
+          render json: @member, status: :ok
+        else
+          render json: {message: "Something wrong"}, status: 404
         end
       end
 

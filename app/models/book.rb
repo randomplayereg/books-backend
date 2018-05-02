@@ -10,9 +10,13 @@ class Book < ApplicationRecord
 
    def self.get_books(params)
      @books = Book.all
-     @books.joins!(:user)
-     filter_by(params[:filter_params])
-     sort_by(params[:sort_params])
+     @books.joins!(:member)
+     if params[:filter_params]
+       filter_by(params[:filter_params])
+     end
+     if params[:sort_params]
+       sort_by(params[:sort_params])
+     end
      @books = @books.limit(5).offset((params[:page].to_i - 1) * 5)
      @books
    end

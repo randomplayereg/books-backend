@@ -3,7 +3,16 @@ module Api
     class BooksController < Api::V1::BooksController
       # GET /books
       def index
-        render json: Book.all, status: :ok
+        if params[:filter_params] != nil
+          if params[:filter_params][:attr] == "member.email"
+            member = Member.find_by(email: params[:filter_params][:value])
+
+            params[:filter_params][:attr] = "member_id"
+            params[:filter_params][:operator] = "="
+            params[:filter_params][:value] = member.id
+          end
+        end
+        render json: Book.get_books(params), status: :ok
       end
 
       def create

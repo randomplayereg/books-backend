@@ -18,6 +18,8 @@ Rails.application.routes.draw do
       get "/books/xls", to: "xlsexporter#books", format: "xlsx"
       resources :books
       get "/members/xls", to: "xlsexporter#members", format: "xlsx"
+      get "/members/check_admin", to: "members#check_admin"
+      get "/members/self", to: "members#self"
       resources :members, only: [:index, :show, :update, :destroy]
     end
   end
