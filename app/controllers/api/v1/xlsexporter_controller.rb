@@ -1,5 +1,5 @@
 module Api
-  module V2
+  module V1
     class XlsexporterController < ApplicationController
       def books
         @books = Book.all

@@ -1,5 +1,5 @@
 module Api
-  module V2
+  module V1
     class MembersController < ApiController
 
       before_action :set_member, except: [:index, :check_admin, :self]

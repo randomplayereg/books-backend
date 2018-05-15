@@ -3,18 +3,18 @@ class Book < ApplicationRecord
 
    validates :title, presence: true
    validates :author, presence: true
-   # validates :user_id, presence: true
    validates :member_id, presence: true
 
    mount_base64_uploader :picture, PictureUploader
 
+# TODO: edit get book function
    def self.get_books(params)
      @books = Book.all
      # @books.joins!(:member)
-     if params[:filter_params]
+     if params[:filter_params].present?
        filter_by(params[:filter_params])
      end
-     if params[:sort_params]
+     if params[:sort_params].present?
        sort_by(params[:sort_params])
      end
      @books = @books.limit(5).offset((params[:page].to_i - 1) * 5)

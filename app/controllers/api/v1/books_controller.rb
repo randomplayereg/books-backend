@@ -5,9 +5,17 @@ module Api
       before_action :require_login, only: [:update, :destroy, :create, :require_either_admin_or_same_user]
       before_action :require_either_admin_or_same_user, only: [:update, :destroy]
 
-
       # GET /books
       def index
+        if params[:filter_params] != nil
+          if params[:filter_params][:attr] == "member.email"
+            member = Member.find_by(email: params[:filter_params][:value])
+
+            params[:filter_params][:attr] = "member_id"
+            params[:filter_params][:operator] = "="
+            params[:filter_params][:value] = member.id
+          end
+        end
         render json: Book.get_books(params), status: :ok
       end
 
@@ -16,10 +24,9 @@ module Api
         render json: @book
       end
 
-      # POST /books
       def create
         @book = Book.new(book_params)
-        @book.user_id = current_user.id
+        @book.member_id = current_member.id
         if @book.save
           render json: @book, status: :created
         else
@@ -48,19 +55,21 @@ module Api
       end
 
       private
-        # Use callbacks to share common setup or constraints between actions.
         def set_book
           @book = Book.find(params[:id])
         end
 
-        # Only allow a trusted parameter "white list" through.
         def book_params
           params.permit(:title, :author, :picture)
         end
 
+        def require_login
+          authenticate_member!
+        end
+
         def require_either_admin_or_same_user
-          if @book.user_id != current_user.id && current_user.admin == false
-            render_unauthorized("Access denied!")
+          if @book.member_id != current_member.id && current_member.admin != true
+            render json: {message: "You don't have permission!"}, status: :forbidden
           end
         end
     end
